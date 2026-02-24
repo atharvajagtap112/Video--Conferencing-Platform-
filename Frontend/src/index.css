@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    margin: 0;
+    overflow: hidden;
+  }
+}
+
+@layer utilities {
+  .meeting-gradient {
+    background: linear-gradient(135deg, #0f0c29 0%, #1a1a2e 50%, #16213e 100%);
+  }
+
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+
+  .glass-hover {
+    @apply hover:bg-white/10 transition-colors duration-200;
+  }
+
+  .mirror-video video {
+    transform: scaleX(-1);
+  }
+}
+
+/* ══ CRITICAL: Override LiveKit's default layout ══ */
+
+/* LiveKitRoom container ��� must not impose its own height/layout */
+[data-lk-theme] {
+  --lk-bg: transparent !important;
+  background: transparent !important;
+}
+
+/* Kill LiveKit's default grid/focus layout entirely */
+.lk-grid-layout,
+.lk-focus-layout,
+.lk-focus-layout-wrapper {
+  display: contents !important;
+}
+
+/* Hide all default LiveKit UI chrome */
+.lk-participant-metadata,
+.lk-participant-placeholder,
+.lk-participant-name,
+.lk-connection-quality,
+.lk-focus-toggle-button,
+.lk-participant-tile-metadata {
+  display: none !important;
+}
+
+.lk-participant-tile {
+  border-radius: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  position: relative !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
