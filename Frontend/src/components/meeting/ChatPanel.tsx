@@ -43,7 +43,7 @@ export function ChatPanel({ onSendMessage }: ChatPanelProps) {
       animate={{ width: 360, opacity: 1 }}
       exit={{ width: 0, opacity: 0 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="h-[44rem] flex flex-col border-l border-white/5 bg-meeting-surface overflow-hidden"
+      className="h-full flex flex-col border-l border-white/5 bg-meeting-surface overflow-hidden"
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 ">
