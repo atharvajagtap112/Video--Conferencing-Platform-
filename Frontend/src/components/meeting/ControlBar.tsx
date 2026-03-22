@@ -30,12 +30,16 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { toggleChat, toggleParticipantList } from "@/store/meeting.store";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 interface ControlBarProps {
-  onLeave: () => void;
-  onClose: () => void;
+
+  onLeave: () => Promise<void>;   // changed
+  onClose: () => Promise<void>;   // changed
   onRaiseHand: () => void;
   onLowerHand: () => void;
+
+  
 }
 
 export function ControlBar({
@@ -119,7 +123,39 @@ export function ControlBar({
     toast.success("Meeting ID copied!");
     setTimeout(() => setCopied(false), 2000);
   };
+    const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+   const handleLeave = async () => {
+    if (isSubmitting) return;
+    try {
+      setIsSubmitting(true);
+      await onLeave();
 
+      // guest/user leave => dashboard
+      // host can also leave (without ending for all) => dashboard
+      navigate("/dashboard");
+    } catch {
+      toast.error("Failed to leave room.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleClose = async () => {
+    if (isSubmitting) return;
+    try {
+      setIsSubmitting(true);
+      await onClose();
+
+      // Host ended meeting => summary page
+      if (meetingId) navigate(`/meeting/${meetingId}/summary`);
+      else navigate("/dashboard");
+    } catch {
+      toast.error("Failed to end meeting.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <motion.div
       initial={{ y: 80, opacity: 0 }}
@@ -232,8 +268,9 @@ export function ControlBar({
             <Button
               variant="meeting-danger"
               size="icon-lg"
-              onClick={isHost ? onClose : onLeave}
+              onClick={isHost ? handleClose : handleLeave}
               className="rounded-full ml-2"
+               disabled={isSubmitting}
             >
               {isHost ? (
                 <DoorClosed className="h-5 w-5" />

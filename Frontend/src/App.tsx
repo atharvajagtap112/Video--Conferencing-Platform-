@@ -9,6 +9,7 @@ import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
 import Room from "@/pages/Room";
 import { AuthGuard } from "@/components/auth/AuthGuard";
+import MeetingSummary from "./pages/MeetingSummary";
 
 export default function App() {
   const location = useLocation();
@@ -54,6 +55,7 @@ export default function App() {
             </AuthGuard>
           }
         />
+        <Route path="/meeting/:meetingId/summary" element={<MeetingSummary />} />
 
         {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
