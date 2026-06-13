@@ -1,19 +1,35 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
-import { useAppSelector } from "@/store";
+import { useAppSelector, useAppDispatch } from "@/store";
+import { logout } from "@/store/auth.store";
+import { useEffect } from "react";
 
 import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
 import Room from "@/pages/Room";
+import MeetingHistoryPage from "@/pages/MeetingHistoryPage";
+import MeetingSummary from "@/pages/MeetingSummary";
 import { AuthGuard } from "@/components/auth/AuthGuard";
-import MeetingSummary from "./pages/MeetingSummary";
 
 export default function App() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+
+  // Listen for auth:logout event from axios interceptor
+  useEffect(() => {
+    const handleLogout = () => {
+      dispatch(logout());
+      navigate("/login", { replace: true });
+    };
+
+    window.addEventListener('auth:logout', handleLogout);
+    return () => window.removeEventListener('auth:logout', handleLogout);
+  }, [dispatch, navigate]);
 
   return (
     <AnimatePresence mode="wait">
@@ -55,7 +71,22 @@ export default function App() {
             </AuthGuard>
           }
         />
-        <Route path="/meeting/:meetingId/summary" element={<MeetingSummary />} />
+        <Route
+          path="/meeting/history"
+          element={
+            <AuthGuard>
+              <MeetingHistoryPage />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/meeting/:meetingId/summary"
+          element={
+            <AuthGuard>
+              <MeetingSummary />
+            </AuthGuard>
+          }
+        />
 
         {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -30,7 +30,6 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { toggleChat, toggleParticipantList } from "@/store/meeting.store";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
 
 interface ControlBarProps {
 
@@ -123,17 +122,14 @@ export function ControlBar({
     toast.success("Meeting ID copied!");
     setTimeout(() => setCopied(false), 2000);
   };
-    const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
-   const handleLeave = async () => {
+
+  // Navigation is handled by the useLiveKit hook (leaveRoom → /dashboard, closeRoom → /summary)
+  const handleLeave = async () => {
     if (isSubmitting) return;
     try {
       setIsSubmitting(true);
       await onLeave();
-
-      // guest/user leave => dashboard
-      // host can also leave (without ending for all) => dashboard
-      navigate("/dashboard");
     } catch {
       toast.error("Failed to leave room.");
     } finally {
@@ -146,10 +142,6 @@ export function ControlBar({
     try {
       setIsSubmitting(true);
       await onClose();
-
-      // Host ended meeting => summary page
-      if (meetingId) navigate(`/meeting/${meetingId}/summary`);
-      else navigate("/dashboard");
     } catch {
       toast.error("Failed to end meeting.");
     } finally {

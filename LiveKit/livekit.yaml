@@ -1,0 +1,23 @@
+port: 7880
+bind_addresses:
+  - 0.0.0.0
+
+rtc:
+  port_range_start: 7882
+  port_range_end: 7882
+  use_external_ip: false
+  tcp_port: 7881
+
+keys:
+  devkey: devsecret_this_is_a_long_secret_key_for_livekit_server_32chars
+
+redis:
+  address: livekit-redis:6379
+
+room:
+  empty_timeout: 300
+  departure_timeout: 20
+
+logging:
+  level: info
+  json: false

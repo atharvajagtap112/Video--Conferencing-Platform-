@@ -1,0 +1,48 @@
+services:
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: livekit
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "7882:7882/udp"
+    environment:
+      LIVEKIT_KEYS: "devkey: devsecret_this_is_a_long_secret_key_for_livekit_server_32chars"
+    volumes:
+      - ./livekit.yaml:/livekit.yaml
+    command: --config /livekit.yaml
+    restart: unless-stopped
+    networks:
+      - lk-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: livekit-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      - lk-network
+
+  egress:
+    image: livekit/egress:latest
+    container_name: livekit-egress
+    restart: unless-stopped
+    ports:
+      - "9090:9090"  # Expose egress HTTP port
+    environment:
+      EGRESS_CONFIG_FILE: /etc/egress/config.yaml
+    cap_add:
+      - SYS_ADMIN
+    volumes:
+      - ./egress-config:/etc/egress
+      - ./recordings:/recordings
+    depends_on:
+      - livekit
+      - redis
+    networks:
+      - lk-network
+
+networks:
+  lk-network:
+    driver: bridge

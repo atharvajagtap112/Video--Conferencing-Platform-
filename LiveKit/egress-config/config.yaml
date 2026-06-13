@@ -1,0 +1,9 @@
+api_key: devkey
+api_secret: devsecret_this_is_a_long_secret_key_for_livekit_server_32chars
+ws_url: ws://livekit:7880
+insecure: true
+health_port: 9090
+template_port: 0
+
+redis:
+  address: livekit-redis:6379

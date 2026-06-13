@@ -5,6 +5,7 @@ import {
   LogOut,
   LayoutDashboard,
   User,
+  History,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -45,6 +46,13 @@ export function Navbar() {
                 <Link to="/dashboard" className="flex items-center gap-2">
                   <LayoutDashboard className="h-4 w-4" />
                   Dashboard
+                </Link>
+              </Button>
+
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/meeting/history" className="flex items-center gap-2">
+                  <History className="h-4 w-4" />
+                  History
                 </Link>
               </Button>
 

@@ -65,7 +65,8 @@ export function useLiveKit() {
       // handled by interceptor
     } finally {
       dispatch(resetMeeting());
-      navigate("/dashboard");
+      // Host ends meeting → navigate to the AI summary page
+      navigate(`/meeting/${meetingId}/summary`);
     }
   }, [meeting.meetingId, dispatch, navigate]);
 

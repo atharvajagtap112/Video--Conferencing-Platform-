@@ -9,6 +9,7 @@ import {
   MonitorSmartphone,
   MessageSquare,
   Globe,
+  History,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/layout/Navbar";
@@ -131,6 +132,17 @@ export default function Landing() {
                   asChild
                 >
                   <Link to="/login">Sign In</Link>
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-base px-8 gap-2"
+                  asChild
+                >
+                  <Link to="/meeting/history">
+                    <History className="h-4 w-4" />
+                    Meeting History
+                  </Link>
                 </Button>
               </motion.div>
             </motion.div>

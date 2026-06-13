@@ -52,6 +52,8 @@ const authSlice = createSlice({
           displayName: action.payload.displayName,
         })
       );
+      console.log("✅ Login successful - Token stored:", action.payload.token.substring(0, 20) + "...");
+      console.log("✅ User stored:", action.payload.username);
     },
     logout(state) {
       state.user = null;

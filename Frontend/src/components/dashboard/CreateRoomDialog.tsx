@@ -45,8 +45,10 @@ export function CreateRoomDialog() {
 
       // Step 3: Join via useLiveKit hook — this updates Redux store AND navigates
       await joinRoom(room.meetingId);
-    } catch {
-      // Error handled by axios interceptor
+    } catch (error) {
+      // Error handled by axios interceptor, but log for debugging
+      console.error("Failed to create/join room:", error);
+      toast.error("Failed to create meeting. Please try again.");
     } finally {
       setIsCreating(false);
     }
