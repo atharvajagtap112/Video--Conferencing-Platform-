@@ -40,6 +40,7 @@ export default function Dashboard() {
   return (
     <PageTransition>
       <Navbar />
+      
 
       <main className="min-h-[calc(100vh-4rem)]">
         {/* Background glow */}

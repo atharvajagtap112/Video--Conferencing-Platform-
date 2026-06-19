@@ -74,9 +74,9 @@ const item: Variants = {
 export default function Landing() {
   return (
     <PageTransition>
-      <Navbar />
+     
 
-      <main className="relative overflow-hidden">
+      <main className="relative ">
         {/* ── Hero ── */}
         <section className="relative py-24 sm:py-32 lg:py-40">
           {/* Background glow */}
@@ -133,17 +133,9 @@ export default function Landing() {
                 >
                   <Link to="/login">Sign In</Link>
                 </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-base px-8 gap-2"
-                  asChild
-                >
-                  <Link to="/meeting/history">
-                    <History className="h-4 w-4" />
-                    Meeting History
-                  </Link>
-                </Button>
+               
+                  
+               
               </motion.div>
             </motion.div>
 
@@ -186,7 +178,7 @@ export default function Landing() {
                     { color: "bg-meeting-control", label: "🎤" },
                     { color: "bg-meeting-control", label: "📹" },
                     { color: "bg-meeting-control", label: "🖥️" },
-                    { color: "bg-meeting-danger", label: "📞" },
+                    { color: "bg-meeting-control", label: "📞" },
                   ].map((btn, i) => (
                     <div
                       key={i}
